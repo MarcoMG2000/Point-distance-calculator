@@ -36,6 +36,8 @@ public class View extends JFrame {
      * JFrame.
      */
     public void mostrar() {
+        this.setSize(800,600);
+        this.setVisible(true);
         // TODO: implementar método.
     }
     
