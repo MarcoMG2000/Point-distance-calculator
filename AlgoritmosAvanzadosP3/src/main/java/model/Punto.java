@@ -4,17 +4,19 @@
  */
 package model;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 /**
  *
  * @author lostr
  */
-public class Punto extends Point implements Comparable {
+public class Punto extends Point2D.Double implements Comparable<Punto> {
 
     @Override
-    public int compareTo(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public int compareTo(Punto o) {
+        if(this.x < o.x) return -1;
+        else if (this.x > o.x) return 1;
+        return 0;
     }
     
 }
