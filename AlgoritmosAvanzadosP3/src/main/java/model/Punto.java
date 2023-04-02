@@ -1,22 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * Practica 3 Algoritmos Avanzados - Ing Informática UIB
+ *
+ * @date 23/04/2023
+ * @author jfher, JordiSM, peremarc, MarcoMG
+ * @url
  */
 package model;
 
-import java.awt.geom.Point2D;
-
 /**
- *
- * @author lostr
+ * Clase para representar puntos en dos dimensiones, utilizando la interfaz
+ * comparable para poder ordenarlos por la coordenada x e implementando el
+ * método para medir la distancia entre dos puntos.
  */
-public class Punto extends Point2D.Double implements Comparable<Punto> {
+public class Punto implements Comparable<Punto> {
 
+    private Double x, y;
+
+    private static final Double MARGEN = 0.0001; // Margen para considerar dos puntos iguales.
+
+    // CONSTRUCTORS
+    public Punto(Double x, Double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // CLASS METHODS
     @Override
     public int compareTo(Punto o) {
-        if(this.x < o.x) return -1;
-        else if (this.x > o.x) return 1;
-        return 0;
+        if (o.x > this.x - MARGEN && o.x < this.x + MARGEN) {
+            return 0;
+        } else if (this.x < o.x) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
-    
+
+    public static double distancia(Punto p1, Punto p2) {
+        double dx = p1.x - p2.x;
+        double dy = p1.y - p2.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    // SETTERS & GETTERS
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
 }
