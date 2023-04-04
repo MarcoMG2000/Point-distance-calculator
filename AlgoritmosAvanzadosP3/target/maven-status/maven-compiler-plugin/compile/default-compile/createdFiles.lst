@@ -1,9 +1,15 @@
 model\Model.class
 view\GraphPanel.class
-algoritmosavanzadosp3\AlgoritmosAvanzadosP3.class
 controller\Controller.class
-view\Notification.class
 view\View.class
 view\RightLateralPanel.class
+model\Punto.class
 view\LeftLateralPanel.class
+algoritmosavanzadosp3\AlgoritmosAvanzadosP3.class
+model\Method.class
+controller\Controller$1.class
+model\Distribution.class
+view\Notification.class
+model\Model$1.class
+.netbeans_automatic_build
 view\ZoomPanel.class

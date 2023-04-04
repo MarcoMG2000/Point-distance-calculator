@@ -9,6 +9,7 @@ package model;
 
 import view.View;
 import controller.Controller;
+import java.util.Random;
 
 /**
  * Modelo de la aplicación, aquí se guardan todos los datos necesarios para su
@@ -20,20 +21,24 @@ public class Model {
     private View vista;
     private Controller controlador;
 
+    private int N; // Número de puntos
     private Punto[] puntos; // Puntos generados según la distribución.
     private Punto[][] soluciones; // Pila de parejas que forman la solución.
     private Distribution distribucion; // Distribución para generar los puntos.
     private Method metodo; // Método algoritmico para resolver el problema.
     private boolean minimizar; // Opción para minimizar o maximizar la distáncia entre puntos.
     private int cantidadParejas; // Cantidad parejas que guarda con sus distancias.
+    private final int ANCHO = 500; // Ancho de la ventana.
+    private final int ALTO = 490; // Alto de la ventana.
 
     // CONSTRUCTORS
     public Model() {
     }
 
-    public Model(View vista, Controller controlador) {
+    public Model(View vista, Controller controlador, int n) {
         this.vista = vista;
         this.controlador = controlador;
+        this.N = n;
     }
 
     // CLASS METHODS
@@ -42,12 +47,41 @@ public class Model {
      * elegida.
      */
     public void generarDatos() {
+        puntos = new Punto[N];
+        Random rnd = new Random();
         switch (this.distribucion) {
             case GAUSSIAN -> {
-                // TODO
+                for (int i = 0; i < puntos.length; i++) {
+                    double x = (rnd.nextGaussian() + 1) * ANCHO / 2;// Campana de Gauss en el centro de la ventana
+                    double y = (rnd.nextGaussian() + 1) * ALTO / 2;
+                    puntos[i] = new Punto(x, y);
+                }
             }
             case CHI2 -> {
                 // TODO
+                for (int i = 0; i < puntos.length; i++) {
+                    if (i < puntos.length / 2) {
+                        double x = (rnd.nextGaussian() + 0.5) * ANCHO / 2;// Campana de Gauss en el cuartil izquierdo de la ventana
+                        if (x < 0) {
+                            x = 0;
+                        }
+                        double y = (rnd.nextGaussian() + 0.5) * ALTO / 2;
+                        if (y < 0) {
+                            y = 0;
+                        }
+                        puntos[i] = new Punto(x, y);
+                    } else {
+                        double x = (rnd.nextGaussian() + 1.5) * ANCHO / 2;// Campana de Gauss en el cuartil derecho de la ventana
+                        if (x > ANCHO) {
+                            x = ANCHO;
+                        }
+                        double y = (rnd.nextGaussian() + 1.5) * ALTO / 2;
+                        if (y > ALTO) {
+                            y = ALTO;
+                        }
+                        puntos[i] = new Punto(x, y);
+                    }
+                }
             }
             default ->
                 throw new AssertionError();
