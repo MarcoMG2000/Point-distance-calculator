@@ -9,6 +9,7 @@ package model;
 
 import view.View;
 import controller.Controller;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -46,53 +47,75 @@ public class Model {
      * Método que genera aleatóriamente los puntos según la distribución
      * elegida.
      */
-    public void generarDatos() {
-        puntos = new Punto[N];
+    public void generarDatos(int n) {
+        puntos = new Punto[n];
         Random rnd = new Random();
         switch (this.distribucion) {
             case GAUSSIAN -> {
+                double[] xg = distribucioGaussiana(N);
+                double[] yg = distribucioGaussiana(N);
                 for (int i = 0; i < puntos.length; i++) {
-                    double x = (rnd.nextGaussian() + 1) * ANCHO / 2;// Campana de Gauss en el centro de la ventana
-                    double y = (rnd.nextGaussian() + 1) * ALTO / 2;
+                    double x = (xg[i] + 1) * ANCHO / 2;// Campana de Gauss en el centro de la ventana
+                    double y = (yg[i] + 1) * ALTO / 2;
                     puntos[i] = new Punto(x, y);
                 }
             }
             case CHI2 -> {
-                // TODO
+                double[] xg = distribucioChi2(N);
+                double[] yg = distribucioChi2(N);
                 for (int i = 0; i < puntos.length; i++) {
-                    if (i < puntos.length / 2) {
-                        double x = (rnd.nextGaussian() + 0.5) * ANCHO / 2;// Campana de Gauss en el cuartil izquierdo de la ventana
-                        if (x < 0) {
-                            x = 0;
-                        }
-                        double y = (rnd.nextGaussian() + 0.5) * ALTO / 2;
-                        if (y < 0) {
-                            y = 0;
-                        }
-                        puntos[i] = new Punto(x, y);
-                    } else {
-                        double x = (rnd.nextGaussian() + 1.5) * ANCHO / 2;// Campana de Gauss en el cuartil derecho de la ventana
-                        if (x > ANCHO) {
-                            x = ANCHO;
-                        }
-                        double y = (rnd.nextGaussian() + 1.5) * ALTO / 2;
-                        if (y > ALTO) {
-                            y = ALTO;
-                        }
-                        puntos[i] = new Punto(x, y);
-                    }
+                    double x = (xg[i] + 1) * ANCHO / 2;
+                    double y = (yg[i] + 1) * ALTO / 2;
+                    puntos[i] = new Punto(x, y);
                 }
             }
             case UNIFORME -> {
                 for (int i = 0; i < puntos.length; i++) {
                     double x = rnd.nextDouble() * ANCHO;
-                    double y = rnd.nextGaussian() * ALTO;
+                    double y = rnd.nextDouble() * ALTO;
                     puntos[i] = new Punto(x, y);
                 }
             }
             default ->
                 throw new AssertionError();
         }
+    }
+
+    private double[] distribucioGaussiana(int n) {
+        Random rand = new Random();
+        double[] v = new double[n];
+        double maxAbs = 0;
+        for (int i = 0; i < v.length; i++) {
+            v[i] = rand.nextGaussian();
+            if (Math.abs(v[i]) > maxAbs) {
+                maxAbs = Math.abs(v[i]);
+            }
+        }
+        for (int i = 0; i < v.length; i++) {
+            v[i] = v[i] / maxAbs;
+        }
+        return v;
+    }
+
+    private double[] distribucioChi2(int n) {
+        Random rand = new Random();
+        double[] v = new double[n];
+        double maxAbs = 0;
+        for (int i = 0; i < v.length; i++) {
+            if (i < v.length / 2) {
+                v[i] = rand.nextGaussian() - 0.5;
+
+            } else {
+                v[i] = rand.nextGaussian() + 0.5;
+            }
+            if (Math.abs(v[i]) > maxAbs) {
+                maxAbs = Math.abs(v[i]);
+            }
+        }
+        for (int i = 0; i < v.length; i++) {
+            v[i] = v[i] / maxAbs;
+        }
+        return v;
     }
 
     /**
