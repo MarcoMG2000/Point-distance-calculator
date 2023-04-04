@@ -32,7 +32,7 @@ public class Punto implements Comparable<Punto> {
         } else if (this.x < o.x) {
             return -1;
         } else {
-            return 0;
+            return 1;
         }
     }
 
