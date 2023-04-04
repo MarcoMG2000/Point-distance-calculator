@@ -11,5 +11,5 @@ package model;
  * Enum de las distintas distribuciones para generar los puntos aleatoriamente.
  */
 public enum Distribution {
-    GAUSSIAN, CHI2
+    GAUSSIAN, CHI2, UNIFORME
 }
