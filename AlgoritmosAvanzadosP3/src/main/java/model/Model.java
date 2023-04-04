@@ -83,6 +83,13 @@ public class Model {
                     }
                 }
             }
+            case UNIFORME -> {
+                for (int i = 0; i < puntos.length; i++) {
+                    double x = rnd.nextDouble() * ANCHO;
+                    double y = rnd.nextGaussian() * ALTO;
+                    puntos[i] = new Punto(x, y);
+                }
+            }
             default ->
                 throw new AssertionError();
         }
