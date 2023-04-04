@@ -11,8 +11,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import static java.lang.Math.random;
-import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -23,18 +21,16 @@ import javax.swing.border.LineBorder;
 public class GraphPanel extends JPanel {
 
     private View vista;
-    private int margenLat = 160;
-    private int margenVert = 50;
 
-    public GraphPanel(View v) {
+    public GraphPanel(View v, int width, int height) {
         vista = v;
         Border borde = new LineBorder(Color.BLACK, 2);
         setBorder(borde);
         setLayout(null);
-        setBounds(margenLat, margenVert,
-                vista.getWidth() - (margenLat * 2 + 20),
-                vista.getHeight() - (margenVert * 3));
+        setBounds(vista.MARGENLAT, vista.MARGENVER,
+                width, height);
         setBackground(Color.WHITE);
+        System.out.println("width: " + getWidth() + "\nheigth: " + getHeight());
     }
 
     @Override

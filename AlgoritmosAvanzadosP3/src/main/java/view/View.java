@@ -11,10 +11,12 @@ import model.Model;
 import controller.Controller;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Toolkit;
-import java.util.Random;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import javax.swing.border.LineBorder;
 
 /**
  * Vista de la aplicación, aquí interactuaremos con la aplicación y
@@ -26,6 +28,15 @@ public class View extends JFrame {
     private Controller controlador;
     private Model modelo;
 
+    // CONSTANTES DE LA VISTA
+    protected final int MARGENLAT = 200;
+    protected final int MARGENVER = 150;
+    
+    // VARIABLES DEL JPanel
+    private int GraphWidth;
+    private int GraphHeight;
+    
+    
     // CONSTRUCTORS
     public View() {
     }
@@ -41,17 +52,45 @@ public class View extends JFrame {
      * JFrame.
      */
     public void mostrar() {
-        setLayout(null);
-        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int ancho = 850;
-        int alto = 650;
-        int x = (pantalla.width - ancho) / 2;
-        int y = (pantalla.height - alto) / 2;
-        setBounds(x, y, ancho, alto);
-        GraphPanel panel = new GraphPanel(this);
+        this.setTitle("Práctica 3 - Algoritmos Avanzados");
+        this.setLayout(null);
+        
+        this.GraphWidth  = 850;
+        this.GraphHeight = 650;
+       
+        // DIMENSION DEL JFRAME
+        setSize(this.GraphWidth + this.MARGENLAT*2, this.GraphHeight + this.MARGENVER + 40);
+        
+        // POSICIONAR EL JFRAME EN EL CENTRO DE LA PANTALLA
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        
+        // TITTLE PANEL
+        JPanel title = new JPanel();
+        title.setBounds(10, 10, getWidth() - 20, this.MARGENVER-20);
+        title.setBackground(Color.WHITE);
+        title.setBorder(new LineBorder(Color.BLACK, 2));
+        
+        JLabel titleLabel = new JLabel("Titulo");
+        title.add(titleLabel);
+        
+        this.add(title);
+        
+        // GRAPH PANEL
+        GraphPanel panel = new GraphPanel(this, GraphWidth, GraphHeight);
         this.add(panel);
+        
+        // PANELES LATERALES
+        LeftLateralPanel leftPanel = new LeftLateralPanel(this);
+        this.add(leftPanel);
+        
+        RightLateralPanel rightPanel = new RightLateralPanel(this);
+        this.add(rightPanel);
+        
+        // ÚLTIMOS AJUSTES
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
     }
 
     // GETTERS & SETTERS
