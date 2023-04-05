@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.border.LineBorder;
+import model.Distribution;
+import model.Method;
 
 /**
  * Vista de la aplicación, aquí interactuaremos con la aplicación y
@@ -35,6 +37,10 @@ public class View extends JFrame {
     // VARIABLES DEL JPanel
     private int GraphWidth;
     private int GraphHeight;
+    
+    private LeftLateralPanel  leftPanel;
+    private RightLateralPanel rightPanel;
+    private GraphPanel graphPanel;
     
     
     // CONSTRUCTORS
@@ -77,14 +83,14 @@ public class View extends JFrame {
         this.add(title);
         
         // GRAPH PANEL
-        GraphPanel panel = new GraphPanel(this, GraphWidth, GraphHeight);
-        this.add(panel);
+        graphPanel = new GraphPanel(this, GraphWidth, GraphHeight);
+        this.add(graphPanel);
         
         // PANELES LATERALES
-        LeftLateralPanel leftPanel = new LeftLateralPanel(this);
+        leftPanel = new LeftLateralPanel(this);
         this.add(leftPanel);
         
-        RightLateralPanel rightPanel = new RightLateralPanel(this);
+        rightPanel = new RightLateralPanel(this);
         this.add(rightPanel);
         
         // ÚLTIMOS AJUSTES
@@ -108,6 +114,23 @@ public class View extends JFrame {
 
     public void setModelo(Model modelo) {
         this.modelo = modelo;
+    }
+
+    protected void startClicked() {
+        Distribution distribution = leftPanel.getDistribution();
+        String proximity = leftPanel.getProximity();
+        int nSolutions = leftPanel.getQuantityPairs();
+        int n = leftPanel.getQuantityPoints();
+        Method typeSolution = leftPanel.getSolution();
+        
+        this.modelo.reset(distribution, n, nSolutions, typeSolution, proximity);
+        System.out.println(modelo.getPuntos().length);
+        this.controlador.start();
+                
+    }
+    
+    public void paintGraph() {
+        this.graphPanel.repaint();
     }
 
 }

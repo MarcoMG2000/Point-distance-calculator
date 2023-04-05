@@ -29,9 +29,9 @@ public class Model {
     private Method metodo; // Método algoritmico para resolver el problema.
     private boolean minimizar; // Opción para minimizar o maximizar la distáncia entre puntos.
     private int cantidadParejas; // Cantidad parejas que guarda con sus distancias.
-    private final int ANCHO = 500; // Ancho de la ventana.
-    private final int ALTO = 490; // Alto de la ventana.
-
+    private final int ANCHO = 850; // Ancho de la ventana.
+    private final int ALTO = 650; // Alto de la ventana.
+    
     // CONSTRUCTORS
     public Model() {
     }
@@ -40,6 +40,7 @@ public class Model {
         this.vista = vista;
         this.controlador = controlador;
         this.N = n;
+        this.generarDatos(n);
     }
 
     // CLASS METHODS
@@ -192,6 +193,20 @@ public class Model {
 
     public void setSoluciones(Punto[][] soluciones) {
         this.soluciones = soluciones;
+    }
+
+    public void reset(Distribution distribution, int n, int nSolutions, Method typeSolution, String proximity) {
+        this.cantidadParejas = nSolutions;
+        this.distribucion = distribution;
+        this.N = n;
+        this.metodo = typeSolution;
+        this.minimizar = false;
+        if(proximity.equals("Cerca")){
+            this.minimizar = true;
+        }
+        this.soluciones = new Punto[nSolutions][2];
+        
+        this.generarDatos(n);
     }
 
 }

@@ -39,8 +39,9 @@ public class Controller {
      * los puntos generados en el modelo, contiene dos métodos de calcular los 
      * puntos, uno utilizando fuerza bruta y otro utilizando divide y vencerás.
      */
-    public void buscarPuntos() {
+    public void start() {
         Punto[] puntos = modelo.getPuntos();
+        System.out.println(puntos.length);
         // Distribution distribucion = modelo.getDistribucion();
         Method metodo = modelo.getMetodo();
         boolean minimizar = modelo.isMinimizar();
@@ -58,10 +59,13 @@ public class Controller {
                 Arrays.sort(puntos, 0, puntos.length - 1, (a, b)
                         -> Double.compare(a.getX(), b.getX()));
                 encontrarParejasDC(puntos, minimizar);
+                break;
             }
             default ->
                 throw new AssertionError();
         }
+        this.vista.paintGraph();
+        
     }
 
     /**
@@ -92,6 +96,8 @@ public class Controller {
                 }
             }
         }
+        System.out.println("Finished");
+        System.out.println(modelo.getSoluciones());
     }
 
     /**
@@ -187,6 +193,9 @@ public class Controller {
 
     public void setVista(View vista) {
         this.vista = vista;
+    }
+
+    public void start(String typeSolution, String proximity) {
     }
 
 }
