@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import model.Distribution;
+import model.Method;
 
 /**
  * Panel lateral izquierdo de la ventana principal.
@@ -73,7 +74,7 @@ public class LeftLateralPanel extends JPanel{
         proximityLabel.setBounds(10, 80, width - 20, 30);
         this.add(proximityLabel);
         
-        this.proximity = new JComboBox<>(model.Distribution.values());
+        this.proximity = new JComboBox<>(new String []{"Cerca", "Lejos"});
         this.proximity.setLayout(null);
         this.proximity.setBounds(10, 110, width - 20, 30);
         this.add(proximity);
@@ -95,7 +96,7 @@ public class LeftLateralPanel extends JPanel{
         solutionLabel.setBounds(10, 200, width - 20, 30);
         this.add(solutionLabel);
         
-        this.solution = new JComboBox<>(new String []{"Próximos", "Lejanos"});
+        this.solution = new JComboBox<>(model.Method.values());
         this.solution.setLayout(null);
         this.solution.setBounds(10, 230, width - 20, 30);
         this.add(solution);
@@ -132,7 +133,7 @@ public class LeftLateralPanel extends JPanel{
         return Integer.parseInt(this.quantityPoints.getSelectedItem().toString());
     }
     
-    protected String getSolution(){
-        return this.solution.getSelectedItem().toString();
+    protected Method getSolution(){
+        return Method.valueOf(this.solution.getSelectedItem().toString());
     }
 }

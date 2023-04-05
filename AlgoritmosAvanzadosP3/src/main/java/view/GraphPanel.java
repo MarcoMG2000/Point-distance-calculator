@@ -14,6 +14,7 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import model.Punto;
 
 /**
  * Panel para pintar los puntos generados.
@@ -35,17 +36,41 @@ public class GraphPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+        
         super.paintComponent(g);
+        
+        if(vista.getModelo().getPuntos() == null){
+            return;
+        }
 
         Graphics2D g2d = (Graphics2D) g;
+        
+        Punto[]   puntos     = vista.getModelo().getPuntos();
+        Punto[][] soluciones = vista.getModelo().getSoluciones();
+        
         /*Aqui tendria que ir una llamada al modelo para hacer un get de los
         valores generados para los puntos y luego ya seria ir haciendo llamadas
         a la funcion drawPoint con los valores de cada punto*/
-    }
-
-    public void drawPoint(Graphics2D g2d, int x, int y) {
-        Ellipse2D.Double circle = new Ellipse2D.Double(x, y, 10, 10);
+        
         g2d.setColor(Color.RED);
-        g2d.fill(circle);
+        for (Punto p: puntos){
+            g2d.fill(new Ellipse2D.Double(p.getX(), p.getY(), 2, 2));
+        }
+        
+        g2d.setColor(Color.BLUE);
+        for (int i = 0; i < soluciones.length; i++){
+            Punto p1 = soluciones[i][0];
+            Punto p2 = soluciones[i][1];
+            
+            int x1 = (int) p1.getX();
+            int y1 = (int) p1.getY();
+            int x2 = (int) p2.getX();
+            int y2 = (int) p2.getY();
+            
+            g2d.drawLine(x1, y1, x2, y2);
+        }
+        
+        
+        
     }
 }

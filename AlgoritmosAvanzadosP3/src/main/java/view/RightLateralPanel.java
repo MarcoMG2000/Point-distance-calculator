@@ -7,6 +7,8 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,6 +58,14 @@ public class RightLateralPanel extends JPanel{
         this.startB.setLayout(null);
         this.startB.setBounds(10, height-100, width - 20, 90);
         this.add(startB);
+        
+        startB.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                vista.startClicked();
+            }
+        
+        });
         
         this.setVisible(true);
     }
