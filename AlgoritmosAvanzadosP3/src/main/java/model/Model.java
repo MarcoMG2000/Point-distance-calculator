@@ -9,7 +9,6 @@ package model;
 
 import view.View;
 import controller.Controller;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -105,10 +104,10 @@ public class Model {
         double maxAbs = 0;
         for (int i = 0; i < v.length; i++) {
             if (i < v.length / 2) {
-                v[i] = rand.nextGaussian() - 0.5;
+                v[i] = rand.nextGaussian() - 1.5;
 
             } else {
-                v[i] = rand.nextGaussian() + 0.5;
+                v[i] = rand.nextGaussian() + 1.5;
             }
             if (Math.abs(v[i]) > maxAbs) {
                 maxAbs = Math.abs(v[i]);
