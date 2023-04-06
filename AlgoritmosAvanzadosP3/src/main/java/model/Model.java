@@ -24,7 +24,8 @@ public class Model {
 
     private int N; // Número de puntos
     private Punto[] puntos; // Puntos generados según la distribución.
-    private Punto[][] soluciones; // Pila de parejas que forman la solución.
+    private Punto[][] soluciones; // Parejas que forman la solución.
+    private Double[] distancias; // Distancia entre los puntos de soluciones.
     private Distribution distribucion; // Distribución para generar los puntos.
     private Method metodo; // Método algoritmico para resolver el problema.
     private boolean minimizar; // Opción para minimizar o maximizar la distáncia entre puntos.
@@ -40,7 +41,7 @@ public class Model {
         this.vista = vista;
         this.controlador = controlador;
         this.N = n;
-        this.generarDatos(n);
+        this.generarDatos();
     }
 
     // CLASS METHODS
@@ -48,8 +49,8 @@ public class Model {
      * Método que genera aleatóriamente los puntos según la distribución
      * elegida.
      */
-    public void generarDatos(int n) {
-        puntos = new Punto[n];
+    private void generarDatos() {
+        puntos = new Punto[N];
         Random rnd = new Random();
         switch (this.distribucion) {
             case GAUSSIAN -> {
@@ -120,14 +121,63 @@ public class Model {
     }
 
     /**
-     * Introduce un punto en la pila de puntos que pueden formar parte de la
-     * solución.
+     * Inicializa los atributos soluciones y distancias para 
+     */
+    private void initSoluciones() {
+        
+        Double distancia;
+        if (minimizar) distancia = Double.MAX_VALUE;
+        else distancia = Double.MIN_VALUE;
+        
+        Punto[] puntosAux = new Punto[2];
+        puntosAux[0] = new Punto(0d,0d);
+        puntosAux[1] = new Punto(300d,300d);
+        
+        for (int i = 0; i < distancias.length; i++) {
+            distancias[i] = distancia;
+            soluciones[i] = puntosAux;
+        }
+        
+    }
+    
+    /**
+     * Comprueba si el punto forma parte de la solución y lo añade de ser así.
      *
      * @param puntos posible pareja de puntos de la solución.
      */
     public void pushSolucion(Punto[] puntos) {
-        System.arraycopy(soluciones, 0, soluciones, 1, cantidadParejas - 1);
-        this.soluciones[0] = puntos;
+        
+        // Buscamos la primera de las distancias que sea menor/mayor a la 
+        // distancia entre los puntos de la posible solución que no esté repetido
+        int k = -1;
+        boolean repetido = false;
+        boolean esSolucion = false;
+        Double distancia = Punto.distancia(puntos[0], puntos[1]);
+        for (int i = 0; i < distancias.length && !esSolucion && !repetido; i++) {
+            // Comprobamos si es una posible solución
+            if ((distancia < distancias[i] && minimizar) || (distancia > distancias[i] && !minimizar)) {
+                k = i;
+                esSolucion = true;
+            }
+            // Comprobamos si la solución está repetida
+            if ((puntos[0].equals(soluciones[i][0]) && puntos[1].equals(soluciones[i][1])) 
+                    || (puntos[1].equals(soluciones[i][0]) && puntos[0].equals(soluciones[i][1]))) {
+                repetido = true;
+            }
+        }
+        
+        // Si es una posible solución y no está repetido lo insertamos
+        if (esSolucion && !repetido) {
+            // Movemos una posición todas las distancias y puntos desde k
+            for (int j = distancias.length - 1; j > k; j--) {
+                distancias[j] = distancias[j-1];
+                soluciones[j] = soluciones[j-1];
+            }
+            // Guardamos la nueva solución y su distancia
+            distancias[k] = distancia;
+            soluciones[k] = puntos;
+        }
+        
     }
 
     // GETTERS & SETTERS
@@ -205,8 +255,9 @@ public class Model {
             this.minimizar = true;
         }
         this.soluciones = new Punto[nSolutions][2];
-        
-        this.generarDatos(n);
+        this.distancias = new Double[nSolutions];
+        this.initSoluciones();
+        this.generarDatos();
     }
 
 }
