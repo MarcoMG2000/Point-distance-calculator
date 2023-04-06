@@ -98,6 +98,30 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
     }
+    
+    protected void startClicked() {
+        Distribution distribution = leftPanel.getDistribution();
+        String proximity = leftPanel.getProximity();
+        int nSolutions = leftPanel.getQuantityPairs();
+        int n = leftPanel.getQuantityPoints();
+        Method typeSolution = leftPanel.getSolution();
+        
+        this.modelo.reset(distribution, n, nSolutions, typeSolution, proximity);
+        System.out.println(modelo.getPuntos().length);
+        this.controlador.start();  
+    }
+    
+    public void paintGraph() {
+        this.graphPanel.repaint();
+    }
+    
+    public void setTime(long nanoseconds) {
+        rightPanel.setTime(nanoseconds);
+    }
+    
+    public void setBestResult() {
+        throw new UnsupportedOperationException("Método pendiente de implementación");
+    }
 
     // GETTERS & SETTERS
     public Controller getControlador() {
@@ -115,22 +139,5 @@ public class View extends JFrame {
     public void setModelo(Model modelo) {
         this.modelo = modelo;
     }
-
-    protected void startClicked() {
-        Distribution distribution = leftPanel.getDistribution();
-        String proximity = leftPanel.getProximity();
-        int nSolutions = leftPanel.getQuantityPairs();
-        int n = leftPanel.getQuantityPoints();
-        Method typeSolution = leftPanel.getSolution();
-        
-        this.modelo.reset(distribution, n, nSolutions, typeSolution, proximity);
-        System.out.println(modelo.getPuntos().length);
-        this.controlador.start();
-                
-    }
     
-    public void paintGraph() {
-        this.graphPanel.repaint();
-    }
-
 }
