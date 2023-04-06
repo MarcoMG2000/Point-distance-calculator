@@ -25,7 +25,7 @@ public class RightLateralPanel extends JPanel{
     
     private JButton startB;
     
-    private TimePanel time;
+    private TimePanel timePanel;
     
     public RightLateralPanel(View v){
         this.vista = v;
@@ -50,8 +50,8 @@ public class RightLateralPanel extends JPanel{
         timeLabel.setBounds(10, 10, width - 10, 30);
         this.add(timeLabel);
         
-        time = new TimePanel(10, 50, width - 20, 30);
-        this.add(time);
+        timePanel = new TimePanel(10, 50, width - 20, 30);
+        this.add(timePanel);
         
         // START BUTTON
         this.startB = new JButton("Start");
@@ -76,7 +76,7 @@ public class RightLateralPanel extends JPanel{
         private TimePanel(int x, int y, int width, int height){
             this.setBounds(x, y, width, height);
 
-            this.timeLabel = new JLabel("Hola que tal");
+            this.timeLabel = new JLabel("");
             this.add(timeLabel);
         }
         
@@ -84,9 +84,13 @@ public class RightLateralPanel extends JPanel{
             return this.timeLabel.getText();
         }
         
-        public void setTime(String s){
-            this.timeLabel.setText(s);
+        public void setTime(long nanoseconds){
+            this.timeLabel.setText(String.valueOf(nanoseconds));
         }
+    }
+
+    public void setTime(long nanoseconds) {
+        this.timePanel.setTime(nanoseconds);
     }
     
 }
