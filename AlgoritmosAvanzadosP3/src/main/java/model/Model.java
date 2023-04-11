@@ -31,7 +31,7 @@ public class Model {
     private int cantidadParejas; // Cantidad parejas que guarda con sus distancias.
     private final int ANCHO = 850; // Ancho de la ventana.
     private final int ALTO = 650; // Alto de la ventana.
-    
+
     // CONSTRUCTORS
     public Model() {
     }
@@ -120,32 +120,35 @@ public class Model {
     }
 
     /**
-     * Inicializa los atributos soluciones y distancias para 
+     * Inicializa los atributos soluciones y distancias para
      */
     private void initSoluciones() {
-        
+
         Double distancia;
-        if (minimizar) distancia = Double.MAX_VALUE;
-        else distancia = Double.MIN_VALUE;
-        
+        if (minimizar) {
+            distancia = Double.MAX_VALUE;
+        } else {
+            distancia = Double.MIN_VALUE;
+        }
+
         Punto[] puntosAux = new Punto[2];
-        puntosAux[0] = new Punto(0d,0d);
-        puntosAux[1] = new Punto(300d,300d);
-        
+        puntosAux[0] = new Punto(0d, 0d);
+        puntosAux[1] = new Punto(300d, 300d);
+
         for (int i = 0; i < distancias.length; i++) {
             distancias[i] = distancia;
             soluciones[i] = puntosAux;
         }
-        
+
     }
-    
+
     /**
      * Comprueba si el punto forma parte de la solución y lo añade de ser así.
      *
      * @param puntos posible pareja de puntos de la solución.
      */
     public void pushSolucion(Punto[] puntos) {
-        
+
         // Buscamos la primera de las distancias que sea menor/mayor a la 
         // distancia entre los puntos de la posible solución que no esté repetido
         int k = -1;
@@ -159,24 +162,24 @@ public class Model {
                 esSolucion = true;
             }
             // Comprobamos si la solución está repetida
-            if ((puntos[0].equals(soluciones[i][0]) && puntos[1].equals(soluciones[i][1])) 
+            if ((puntos[0].equals(soluciones[i][0]) && puntos[1].equals(soluciones[i][1]))
                     || (puntos[1].equals(soluciones[i][0]) && puntos[0].equals(soluciones[i][1]))) {
                 repetido = true;
             }
         }
-        
+
         // Si es una posible solución y no está repetido lo insertamos
         if (esSolucion && !repetido) {
             // Movemos una posición todas las distancias y puntos desde k
             for (int j = distancias.length - 1; j > k; j--) {
-                distancias[j] = distancias[j-1];
-                soluciones[j] = soluciones[j-1];
+                distancias[j] = distancias[j - 1];
+                soluciones[j] = soluciones[j - 1];
             }
             // Guardamos la nueva solución y su distancia
             distancias[k] = distancia;
             soluciones[k] = puntos;
         }
-        
+
     }
 
     // GETTERS & SETTERS
@@ -232,6 +235,10 @@ public class Model {
         return cantidadParejas;
     }
 
+    public Double[] getDistancias() {
+        return distancias;
+    }
+
     public void setCantidadParejas(int cantidadParejas) {
         this.cantidadParejas = cantidadParejas;
     }
@@ -250,7 +257,7 @@ public class Model {
         this.N = n;
         this.metodo = typeSolution;
         this.minimizar = false;
-        if(proximity.equals("Cerca")){
+        if (proximity.equals("Cerca")) {
             this.minimizar = true;
         }
         this.soluciones = new Punto[nSolutions][2];

@@ -1,8 +1,9 @@
 /**
  * Practica 3 Algoritmos Avanzados - Ing Informática UIB
+ *
  * @date 23/04/2023
  * @author jfher, JordiSM, peremarc, MarcoMG
- * @url 
+ * @url
  */
 package view;
 
@@ -17,29 +18,27 @@ import javax.swing.border.LineBorder;
 /**
  * Panel lateral derecho de la ventana principal.
  */
-public class RightLateralPanel extends JPanel{
-    
+public class RightLateralPanel extends JPanel {
+
     private View vista;
-    
     private int x, y, width, height;
-    
     private JButton startB;
-    
+    public JPanel soluciones;
     private TimePanel timePanel;
-    
-    public RightLateralPanel(View v){
+
+    public RightLateralPanel(View v) {
         this.vista = v;
         init();
     }
 
     private void init() {
         this.setLayout(null);
-        
-        this.x      = this.vista.getWidth() + 10 - this.vista.MARGENLAT;
-        this.y      = this.vista.MARGENVER;
-        this.width  = this.vista.MARGENLAT - 20;
+
+        this.x = this.vista.getWidth() + 10 - this.vista.MARGENLAT;
+        this.y = this.vista.MARGENVER;
+        this.width = this.vista.MARGENLAT - 20;
         this.height = this.vista.getHeight() - this.vista.MARGENVER - 40;
-        
+
         this.setBounds(x, y, width, height);
         this.setBackground(Color.red);
         this.setBorder(new LineBorder(Color.BLACK, 2));
@@ -49,42 +48,54 @@ public class RightLateralPanel extends JPanel{
         timeLabel.setLayout(null);
         timeLabel.setBounds(10, 10, width - 10, 30);
         this.add(timeLabel);
-        
+
         timePanel = new TimePanel(10, 50, width - 20, 30);
         this.add(timePanel);
-        
+
         // START BUTTON
         this.startB = new JButton("Start");
         this.startB.setLayout(null);
-        this.startB.setBounds(10, height-100, width - 20, 90);
+        this.startB.setBounds(10, height - 100, width - 20, 90);
         this.add(startB);
-        
-        startB.addActionListener( new ActionListener() {
+
+        // SOLUCIONES
+        JLabel resultLabel = new JLabel("Distancias solución/es");
+        resultLabel.setLayout(null);
+        resultLabel.setBounds(10, this.getHeight() / 4, width - 10, 30);
+        this.add(resultLabel);
+
+        soluciones = new JPanel();
+        soluciones.setLayout(null);
+        soluciones.setBounds(10, this.getHeight() / 3 - 10, width - 20, 120);
+        this.add(soluciones);
+
+        startB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 vista.startClicked();
             }
-        
+
         });
-        
+
         this.setVisible(true);
     }
-    
-    private class TimePanel extends JPanel{
+
+    private class TimePanel extends JPanel {
+
         private JLabel timeLabel;
 
-        private TimePanel(int x, int y, int width, int height){
+        private TimePanel(int x, int y, int width, int height) {
             this.setBounds(x, y, width, height);
 
             this.timeLabel = new JLabel("");
             this.add(timeLabel);
         }
-        
-        public String getTime(){
+
+        public String getTime() {
             return this.timeLabel.getText();
         }
-        
-        public void setTime(long nanoseconds){
+
+        public void setTime(long nanoseconds) {
             this.timeLabel.setText(String.valueOf(nanoseconds));
         }
     }
@@ -92,5 +103,5 @@ public class RightLateralPanel extends JPanel{
     public void setTime(long nanoseconds) {
         this.timePanel.setTime(nanoseconds);
     }
-    
+
 }

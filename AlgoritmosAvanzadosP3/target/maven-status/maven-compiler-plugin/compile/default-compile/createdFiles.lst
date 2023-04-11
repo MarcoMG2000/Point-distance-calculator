@@ -10,6 +10,7 @@ model\Method.class
 controller\Controller$1.class
 model\Distribution.class
 view\Notification.class
+view\RightLateralPanel$TimePanel.class
 model\Model$1.class
-.netbeans_automatic_build
+view\RightLateralPanel$1.class
 view\ZoomPanel.class
