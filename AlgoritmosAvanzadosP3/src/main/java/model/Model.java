@@ -29,8 +29,8 @@ public class Model {
     private Method metodo; // Método algoritmico para resolver el problema.
     private boolean minimizar; // Opción para minimizar o maximizar la distáncia entre puntos.
     private int cantidadParejas; // Cantidad parejas que guarda con sus distancias.
-    private final int ANCHO = 850; // Ancho de la ventana.
-    private final int ALTO = 650; // Alto de la ventana.
+    private int ANCHO; // Ancho de la ventana.
+    private int ALTO; // Alto de la ventana.
 
     // CONSTRUCTORS
     public Model() {
@@ -41,6 +41,8 @@ public class Model {
         this.controlador = controlador;
         this.N = n;
         this.generarDatos();
+        ANCHO = vista.getGraphWidth();
+        ALTO = vista.getGraphHeight();
     }
 
     // CLASS METHODS
@@ -49,6 +51,8 @@ public class Model {
      * elegida.
      */
     private void generarDatos() {
+        ANCHO = vista.getGraphWidth();
+        ALTO = vista.getGraphHeight();
         puntos = new Punto[N];
         Random rnd = new Random();
         switch (this.distribucion) {

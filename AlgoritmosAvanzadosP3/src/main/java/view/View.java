@@ -166,4 +166,12 @@ public class View extends JFrame {
         this.modelo = modelo;
     }
 
+    public int getGraphWidth() {
+        return GraphWidth;
+    }
+
+    public int getGraphHeight() {
+        return GraphHeight;
+    }
+
 }
