@@ -15,9 +15,11 @@ package model;
 public class Punto implements Comparable<Punto> {
 
     private Double x, y;
+    
+    private Double distanciaEsquina;
+
 
     private static final Double MARGEN = 0.0001; // Margen para considerar dos puntos iguales.
-
     // CONSTRUCTORS
     public Punto(Double x, Double y) {
         this.x = x;
@@ -49,6 +51,24 @@ public class Punto implements Comparable<Punto> {
 
     public double getY() {
         return y;
+    }
+    
+    public void setDistanciaEsquina (Punto pEsquina){
+        this.distanciaEsquina = Punto.distancia(this, pEsquina);
+    }
+    
+    public void setDistanciaEsquina (Double d){
+        this.distanciaEsquina = d;
+    }
+    
+    public double getDistanciaEsquina(){
+        return this.distanciaEsquina;
+    }
+    
+    
+    @Override
+    public String toString(){
+        return "{Punto: x=" + this.x + " , y=" + this.y + " }";
     }
 
 }

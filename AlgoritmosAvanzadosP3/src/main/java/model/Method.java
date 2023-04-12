@@ -11,5 +11,5 @@ package model;
  * Enum para los dos métodos de resolver el problema de los puntos cercanos.
  */
 public enum Method {
-    FUERZA_BRUTA, DIVIDE_Y_VENCERAS
+    FUERZA_BRUTA, DIVIDE_Y_VENCERAS, AVIDO
 }

@@ -9,6 +9,9 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +31,8 @@ public class LeftLateralPanel extends JPanel {
     private JComboBox quantityPairs;
     private JComboBox solution;
     private JComboBox quantityPoints;
+    
+    private JButton generateB;
 
     private int x, y, width, height;
 
@@ -114,6 +119,20 @@ public class LeftLateralPanel extends JPanel {
         this.quantityPoints.setLayout(null);
         this.quantityPoints.setBounds(10, 300, width - 20, 30);
         this.add(quantityPoints);
+        
+        // GENERATE BUTTON
+        this.generateB = new JButton("Generar Puntos");
+        this.generateB.setLayout(null);
+        this.generateB.setBounds(10, height - 100, width - 20, 90);
+        this.add(generateB);
+        
+        generateB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                vista.generatePointsClicked();
+            }
+
+        });
 
         this.setVisible(true);
 

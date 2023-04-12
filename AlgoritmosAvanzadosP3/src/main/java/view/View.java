@@ -62,9 +62,10 @@ public class View extends JFrame {
     public void mostrar() {
         this.setTitle("Práctica 3 - Algoritmos Avanzados");
         this.setLayout(null);
+        this.setResizable(false);
 
-        this.GraphWidth = 650;
-        this.GraphHeight = 450;
+        this.GraphWidth = 500;
+        this.GraphHeight = 500;
 
         // DIMENSION DEL JFRAME
         setSize(this.GraphWidth + this.MARGENLAT * 2, this.GraphHeight + this.MARGENVER + 40);
@@ -102,15 +103,28 @@ public class View extends JFrame {
     }
 
     protected void startClicked() {
+        if(this.modelo.exists()){
+            this.controlador.start();
+        } else {
+            new Notification("Por favor, Genere los Datos");
+        }
+        
+    }
+    
+    protected void generatePointsClicked() {
+        // Obtenemos la configuración actual
         Distribution distribution = leftPanel.getDistribution();
+        int n = leftPanel.getQuantityPoints();
+        
         String proximity = leftPanel.getProximity();
         int nSolutions = leftPanel.getQuantityPairs();
-        int n = leftPanel.getQuantityPoints();
         Method typeSolution = leftPanel.getSolution();
 
+        // Reiniciamos el modelo con la configuración obtenida
         this.modelo.reset(distribution, n, nSolutions, typeSolution, proximity);
-        System.out.println(modelo.getPuntos().length);
-        this.controlador.start();
+        
+        // Mostramos por pantalla los Puntos
+        this.paintGraph();
     }
 
     public void paintGraph() {

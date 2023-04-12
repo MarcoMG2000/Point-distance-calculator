@@ -24,6 +24,7 @@ public class Model {
     private int N; // Número de puntos
     private Punto[] puntos; // Puntos generados según la distribución.
     private Punto[][] soluciones; // Parejas que forman la solución.
+    private int nSoluciones; // Numero de Parejas que forman la solución.
     private Double[] distancias; // Distancia entre los puntos de soluciones.
     private Distribution distribucion; // Distribución para generar los puntos.
     private Method metodo; // Método algoritmico para resolver el problema.
@@ -31,7 +32,8 @@ public class Model {
     private int cantidadParejas; // Cantidad parejas que guarda con sus distancias.
     private int ANCHO; // Ancho de la ventana.
     private int ALTO; // Alto de la ventana.
-
+    
+    
     // CONSTRUCTORS
     public Model() {
     }
@@ -40,7 +42,7 @@ public class Model {
         this.vista = vista;
         this.controlador = controlador;
         this.N = n;
-        this.generarDatos();
+        this.puntos = null;
         ANCHO = vista.getGraphWidth();
         ALTO = vista.getGraphHeight();
     }
@@ -126,8 +128,9 @@ public class Model {
     /**
      * Inicializa los atributos soluciones y distancias para
      */
-    private void initSoluciones() {
-
+    public void initSoluciones() {
+        this.soluciones = new Punto[nSoluciones][2];
+        this.distancias = new Double[nSoluciones];
         Double distancia;
         if (minimizar) {
             distancia = Double.MAX_VALUE;
@@ -254,7 +257,7 @@ public class Model {
     public void setSoluciones(Punto[][] soluciones) {
         this.soluciones = soluciones;
     }
-
+    
     public void reset(Distribution distribution, int n, int nSolutions, Method typeSolution, String proximity) {
         this.cantidadParejas = nSolutions;
         this.distribucion = distribution;
@@ -264,10 +267,15 @@ public class Model {
         if (proximity.equals("Cerca")) {
             this.minimizar = true;
         }
-        this.soluciones = new Punto[nSolutions][2];
+        this.soluciones = null;
         this.distancias = new Double[nSolutions];
-        this.initSoluciones();
+        this.nSoluciones = nSolutions;
         this.generarDatos();
+        
+    }
+
+    public boolean exists() {
+        return this.puntos != null;
     }
 
 }

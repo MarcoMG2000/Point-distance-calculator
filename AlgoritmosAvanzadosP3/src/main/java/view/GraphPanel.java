@@ -31,7 +31,6 @@ public class GraphPanel extends JPanel {
         setBounds(vista.MARGENLAT, vista.MARGENVER,
                 width, height);
         setBackground(Color.WHITE);
-        System.out.println("width: " + getWidth() + "\nheigth: " + getHeight());
     }
 
     @Override
@@ -54,21 +53,25 @@ public class GraphPanel extends JPanel {
         
         g2d.setColor(Color.RED);
         for (Punto p: puntos){
-            g2d.fill(new Ellipse2D.Double(p.getX(), p.getY(), 2, 2));
+            //g2d.fill(new Ellipse2D.Double(p.getX(), p.getY(), 2, 2));
+            g2d.drawLine((int)p.getX(), (int)p.getY(), (int)p.getX(), (int)p.getY());
         }
         
-        g2d.setColor(Color.BLUE);
-        for (int i = 0; i < soluciones.length; i++){
-            Punto p1 = soluciones[i][0];
-            Punto p2 = soluciones[i][1];
-            
-            int x1 = (int) p1.getX();
-            int y1 = (int) p1.getY();
-            int x2 = (int) p2.getX();
-            int y2 = (int) p2.getY();
-            
-            g2d.drawLine(x1, y1, x2, y2);
+        if(soluciones != null){
+            g2d.setColor(Color.BLUE);
+            for (int i = 0; i < soluciones.length; i++){
+                Punto p1 = soluciones[i][0];
+                Punto p2 = soluciones[i][1];
+
+                int x1 = (int) p1.getX();
+                int y1 = (int) p1.getY();
+                int x2 = (int) p2.getX();
+                int y2 = (int) p2.getY();
+
+                g2d.drawLine(x1, y1, x2, y2);
+            }
         }
+        
         
         
         
