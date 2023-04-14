@@ -9,13 +9,22 @@ package view;
 
 import model.Model;
 import controller.Controller;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.border.LineBorder;
@@ -100,29 +109,66 @@ public class View extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // Agregamos un listener para capturar el clic  
+        graphPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                /* Capturamos la imagen 
+                   Tener en cuenta: Cuanto mayor sea el numero que se suma y
+                   resta a las coordenadas, mayor será la zona que se captura
+                 */
+                BufferedImage captura = getCaptura(graphPanel, e.getX() - 20, e.getY() - 20, e.getX() + 20, e.getY() + 20);
+                Image capturaEscalada = captura.getScaledInstance(captura.getWidth() * 10, captura.getHeight() * 10, Image.SCALE_SMOOTH);
+                JLabel capturaLabel = new JLabel(new ImageIcon(capturaEscalada));
+                JPanel panelCaptura = new JPanel();
+                panelCaptura.setLayout(null);
+                panelCaptura.setPreferredSize(new Dimension(capturaEscalada.getWidth(null), capturaEscalada.getHeight(null)));
+                panelCaptura.add(capturaLabel, BorderLayout.CENTER);
+                JDialog dialogCaptura = new JDialog();
+                dialogCaptura.setTitle("Zoom");
+                dialogCaptura.setBounds(graphPanel.getX()+244, 
+                        graphPanel.getY(), 500, 500);
+                dialogCaptura.setResizable(false);
+                //dialog.setSize(new Dimension(500, 500));
+                dialogCaptura.add(capturaLabel);
+                dialogCaptura.setVisible(true);
+            }
+        });
+    }
+
+    // Función para capturar la imagen  
+    private BufferedImage getCaptura(JPanel panel, int x1, int y1, int x2, int y2) {
+        int width = x2 - x1; // Ancho captura
+        int height = y2 - y1; // Alto captura
+
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = image.createGraphics();
+        panel.paint(graphics.create(-x1, -y1, panel.getWidth(), panel.getHeight()));
+        graphics.dispose();
+        return image;
     }
 
     protected void startClicked() {
-        if(this.modelo.exists()){
+        if (this.modelo.exists()) {
             this.controlador.start();
         } else {
             new Notification("Por favor, Genere los Datos");
         }
-        
+
     }
-    
+
     protected void generatePointsClicked() {
         // Obtenemos la configuración actual
         Distribution distribution = leftPanel.getDistribution();
         int n = leftPanel.getQuantityPoints();
-        
+
         String proximity = leftPanel.getProximity();
         int nSolutions = leftPanel.getQuantityPairs();
         Method typeSolution = leftPanel.getSolution();
 
         // Reiniciamos el modelo con la configuración obtenida
         this.modelo.reset(distribution, n, nSolutions, typeSolution, proximity);
-        
+
         // Mostramos por pantalla los Puntos
         this.paintGraph();
     }
@@ -153,8 +199,8 @@ public class View extends JFrame {
             solucion1Label.setBounds(10, i * 34 + 2,
                     this.rightPanel.soluciones.getWidth() - 20, 20);
             this.rightPanel.soluciones.add(solucion1Label);
-            
-            JLabel distanciaLabel = new JLabel("Distancia: "+df2.format(dist[i]));
+
+            JLabel distanciaLabel = new JLabel("Distancia: " + df2.format(dist[i]));
             distanciaLabel.setLayout(null);
             distanciaLabel.setBounds(10, i * 34 + 18,
                     this.rightPanel.soluciones.getWidth() - 20, 20);
