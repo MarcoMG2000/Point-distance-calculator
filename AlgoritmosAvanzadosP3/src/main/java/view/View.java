@@ -126,7 +126,7 @@ public class View extends JFrame {
                 panelCaptura.add(capturaLabel, BorderLayout.CENTER);
                 JDialog dialogCaptura = new JDialog();
                 dialogCaptura.setTitle("Zoom");
-                dialogCaptura.setBounds(graphPanel.getX()+244, 
+                dialogCaptura.setBounds(graphPanel.getX() + 244,
                         graphPanel.getY(), 500, 500);
                 dialogCaptura.setResizable(false);
                 //dialog.setSize(new Dimension(500, 500));
@@ -185,25 +185,44 @@ public class View extends JFrame {
         this.rightPanel.soluciones.removeAll();
         Punto[][] sol = this.modelo.getSoluciones();
         Double[] dist = this.modelo.getDistancias();
-        DecimalFormat df = new DecimalFormat("#.##");
-        DecimalFormat df2 = new DecimalFormat("#.########");
-        Font font = new Font("Arial", Font.PLAIN, 8);
+        DecimalFormat df = new DecimalFormat("#.#############");
+        DecimalFormat df2 = new DecimalFormat("#.##########");
+        Font font = new Font("Arial Black", Font.PLAIN, 12);
         for (int i = 0; i < dist.length; i++) {
-            JLabel solucion1Label = new JLabel("{["
-                    + df.format(sol[i][0].getX())
-                    + "],[" + df.format(sol[i][0].getY())
-                    + "]} - {[" + df.format(sol[i][1].getX())
-                    + "],[" + df.format(sol[i][1].getY()) + "]}");
-            solucion1Label.setFont(font);
-            solucion1Label.setLayout(null);
-            solucion1Label.setBounds(10, i * 34 + 2,
-                    this.rightPanel.soluciones.getWidth() - 20, 20);
-            this.rightPanel.soluciones.add(solucion1Label);
+            JLabel pntL = new JLabel((i + 1) + " solución.");
+            pntL.setFont(font);
+            pntL.setBounds(10, i * 80 + 6,
+                    this.rightPanel.soluciones.getWidth() - 20, 12);
+            JLabel labelX1 = new JLabel("x1: "
+                    + df.format(sol[i][0].getX()));
+            labelX1.setLayout(null);
+            labelX1.setBounds(10, i * 80 + 18,
+                    this.rightPanel.soluciones.getWidth() - 20, 12);
+            JLabel labelY1 = new JLabel("y1: "
+                    + df.format(sol[i][0].getY()));
+            labelY1.setLayout(null);
+            labelY1.setBounds(10, i * 80 + 30,
+                    this.rightPanel.soluciones.getWidth() - 20, 12);
+            JLabel labelX2 = new JLabel("x2: "
+                    + df.format(sol[i][1].getX()));
+            labelX2.setLayout(null);
+            labelX2.setBounds(10, i * 80 + 42,
+                    this.rightPanel.soluciones.getWidth() - 20, 12);
+            JLabel labelY2 = new JLabel("y2: "
+                    + df.format(sol[i][1].getY()));
+            labelY2.setLayout(null);
+            labelY2.setBounds(10, i * 80 + 54,
+                    this.rightPanel.soluciones.getWidth() - 20, 12);
+            this.rightPanel.soluciones.add(labelX1);
+            this.rightPanel.soluciones.add(labelY1);
+            this.rightPanel.soluciones.add(labelX2);
+            this.rightPanel.soluciones.add(labelY2);
+            this.rightPanel.soluciones.add(pntL);
 
             JLabel distanciaLabel = new JLabel("Distancia: " + df2.format(dist[i]));
             distanciaLabel.setLayout(null);
-            distanciaLabel.setBounds(10, i * 34 + 18,
-                    this.rightPanel.soluciones.getWidth() - 20, 20);
+            distanciaLabel.setBounds(10, i * 80 + 66,
+                    this.rightPanel.soluciones.getWidth() - 20, 12);
             this.rightPanel.soluciones.add(distanciaLabel);
         }
         this.rightPanel.repaint();

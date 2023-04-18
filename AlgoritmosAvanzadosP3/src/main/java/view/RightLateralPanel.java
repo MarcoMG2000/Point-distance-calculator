@@ -61,12 +61,12 @@ public class RightLateralPanel extends JPanel {
         // SOLUCIONES
         JLabel resultLabel = new JLabel("Distancias solución/es");
         resultLabel.setLayout(null);
-        resultLabel.setBounds(10, this.getHeight() / 4, width - 10, 30);
+        resultLabel.setBounds(10, this.getHeight() / 4 - 40, width - 10, 30);
         this.add(resultLabel);
 
         soluciones = new JPanel();
         soluciones.setLayout(null);
-        soluciones.setBounds(10, this.getHeight() / 3 - 10, width - 20, 120);
+        soluciones.setBounds(10, this.getHeight() / 3 - 50, width - 20, 252);
         this.add(soluciones);
 
         startB.addActionListener(new ActionListener() {
