@@ -93,7 +93,7 @@ public class LeftLateralPanel extends JPanel {
         quantityPairsLabel.setBounds(10, 160, (3 * width / 4) - 20, 30);
         this.add(quantityPairsLabel);
 
-        this.quantityPairs = new JComboBox<>(new String[]{"1", "2", "3"});
+        this.quantityPairs = new JComboBox<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
         this.quantityPairs.setLayout(null);
         this.quantityPairs.setBounds((3 * width / 4) - 20, 160, width / 4 + 10, 30);
         this.add(quantityPairs);
@@ -115,7 +115,7 @@ public class LeftLateralPanel extends JPanel {
         quantityPointsLabel.setBounds(10, 270, width - 20, 30);
         this.add(quantityPointsLabel);
 
-        this.quantityPoints = new JComboBox<>(new String[]{"1000", "10000", "100000", "1000000"});
+        this.quantityPoints = new JComboBox<>(new String[]{"1000", "10000", "100000", "1000000", "2500000", "5000000", "7500000", "10000000"});
         this.quantityPoints.setLayout(null);
         this.quantityPoints.setBounds(10, 300, width - 20, 30);
         this.add(quantityPoints);

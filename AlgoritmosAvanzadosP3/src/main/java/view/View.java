@@ -43,8 +43,8 @@ public class View extends JFrame {
     private Model modelo;
 
     // CONSTANTES DE LA VISTA
-    protected final int MARGENLAT = 200;
-    protected final int MARGENVER = 150;
+    protected final int MARGENLAT = 300;
+    protected final int MARGENVER = 20;
 
     // VARIABLES DEL JPanel
     private int GraphWidth;
@@ -73,8 +73,8 @@ public class View extends JFrame {
         this.setLayout(null);
         this.setResizable(false);
 
-        this.GraphWidth = 500;
-        this.GraphHeight = 500;
+        this.GraphWidth = 800;
+        this.GraphHeight = 800;
 
         // DIMENSION DEL JFRAME
         setSize(this.GraphWidth + this.MARGENLAT * 2, this.GraphHeight + this.MARGENVER + 40);
@@ -82,17 +82,6 @@ public class View extends JFrame {
         // POSICIONAR EL JFRAME EN EL CENTRO DE LA PANTALLA
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-
-        // TITTLE PANEL
-        JPanel title = new JPanel();
-        title.setBounds(10, 10, getWidth() - 20, this.MARGENVER - 20);
-        title.setBackground(Color.WHITE);
-        title.setBorder(new LineBorder(Color.BLACK, 2));
-
-        JLabel titleLabel = new JLabel("Titulo");
-        title.add(titleLabel);
-
-        this.add(title);
 
         // GRAPH PANEL
         graphPanel = new GraphPanel(this, GraphWidth, GraphHeight);
@@ -149,8 +138,20 @@ public class View extends JFrame {
     }
 
     protected void startClicked() {
+        /**
+         *  int nSolutions, Method typeSolution, String proximity
+         */
         if (this.modelo.exists()) {
+            String proximity = leftPanel.getProximity();
+            int nSolutions = leftPanel.getQuantityPairs();
+            Method typeSolution = leftPanel.getSolution();
+        
+            this.modelo.setnSoluciones(nSolutions);
+            this.modelo.setMinimizar(proximity.equals("Cerca"));
+            this.modelo.setMetodo(typeSolution);
+            
             this.controlador.start();
+            
         } else {
             new Notification("Por favor, Genere los Datos");
         }
@@ -162,12 +163,8 @@ public class View extends JFrame {
         Distribution distribution = leftPanel.getDistribution();
         int n = leftPanel.getQuantityPoints();
 
-        String proximity = leftPanel.getProximity();
-        int nSolutions = leftPanel.getQuantityPairs();
-        Method typeSolution = leftPanel.getSolution();
-
         // Reiniciamos el modelo con la configuración obtenida
-        this.modelo.reset(distribution, n, nSolutions, typeSolution, proximity);
+        this.modelo.reset(distribution, n);
 
         // Mostramos por pantalla los Puntos
         this.paintGraph();

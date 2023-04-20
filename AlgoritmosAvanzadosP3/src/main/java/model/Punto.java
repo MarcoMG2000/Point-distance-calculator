@@ -16,7 +16,7 @@ public class Punto implements Comparable<Punto> {
 
     private Double x, y;
     
-    private Double distanciaEsquina;
+    private Double distanciaPivote;
 
 
     private static final Double MARGEN = 0.0001; // Margen para considerar dos puntos iguales.
@@ -53,16 +53,16 @@ public class Punto implements Comparable<Punto> {
         return y;
     }
     
-    public void setDistanciaEsquina (Punto pEsquina){
-        this.distanciaEsquina = Punto.distancia(this, pEsquina);
+    public void setDistanciaPivote (Punto pPivote){
+        this.distanciaPivote = Punto.distancia(this, pPivote);
     }
     
-    public void setDistanciaEsquina (Double d){
-        this.distanciaEsquina = d;
+    public void setDistanciaPivote (Double d){
+        this.distanciaPivote = d;
     }
     
-    public double getDistanciaEsquina(){
-        return this.distanciaEsquina;
+    public double getDistanciaPivote(){
+        return this.distanciaPivote;
     }
     
     

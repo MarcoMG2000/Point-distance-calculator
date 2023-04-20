@@ -25,11 +25,11 @@ public class Model {
     private Punto[] puntos; // Puntos generados según la distribución.
     private Punto[][] soluciones; // Parejas que forman la solución.
     private int nSoluciones; // Numero de Parejas que forman la solución.
+
     private Double[] distancias; // Distancia entre los puntos de soluciones.
     private Distribution distribucion; // Distribución para generar los puntos.
     private Method metodo; // Método algoritmico para resolver el problema.
     private boolean minimizar; // Opción para minimizar o maximizar la distáncia entre puntos.
-    private int cantidadParejas; // Cantidad parejas que guarda con sus distancias.
     private int ANCHO; // Ancho de la ventana.
     private int ALTO; // Alto de la ventana.
     
@@ -238,16 +238,8 @@ public class Model {
         this.metodo = metodo;
     }
 
-    public int getCantidadParejas() {
-        return cantidadParejas;
-    }
-
     public Double[] getDistancias() {
         return distancias;
-    }
-
-    public void setCantidadParejas(int cantidadParejas) {
-        this.cantidadParejas = cantidadParejas;
     }
 
     public Punto[][] getSoluciones() {
@@ -258,18 +250,19 @@ public class Model {
         this.soluciones = soluciones;
     }
     
-    public void reset(Distribution distribution, int n, int nSolutions, Method typeSolution, String proximity) {
-        this.cantidadParejas = nSolutions;
+    public void setnSoluciones(int nSoluciones) {
+        this.nSoluciones = nSoluciones;
+    }
+
+    public int getnSoluciones() {
+        return nSoluciones;
+    }
+    
+    public void reset(Distribution distribution, int n) {
         this.distribucion = distribution;
         this.N = n;
-        this.metodo = typeSolution;
-        this.minimizar = false;
-        if (proximity.equals("Cerca")) {
-            this.minimizar = true;
-        }
         this.soluciones = null;
-        this.distancias = new Double[nSolutions];
-        this.nSoluciones = nSolutions;
+        
         this.generarDatos();
         
     }
