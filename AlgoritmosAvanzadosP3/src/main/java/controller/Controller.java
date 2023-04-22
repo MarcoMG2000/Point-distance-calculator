@@ -8,6 +8,7 @@
 package controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import model.Method;
 import static model.Method.AVIDO;
 import model.Model;
@@ -23,6 +24,8 @@ public class Controller {
     // PUNTEROS DEL PATRÓN MVC
     private Model modelo;
     private View vista;
+    
+    private HashMap frecuencias;
 
     // CONSTRUCTORS
     public Controller() {
@@ -53,8 +56,10 @@ public class Controller {
         switch (metodo) {
             case FUERZA_BRUTA ->
                 encontrarParejasBF(puntos);
-            case DIVIDE_Y_VENCERAS ->
+            case DIVIDE_Y_VENCERAS -> {
                 encontrarParejasDC(puntos, minimizar);
+                System.out.println(frecuencias);
+            }
             case AVIDO ->
                 encontrarParejasLejanasAvido(puntos);
             case HEURISTICO ->
@@ -99,6 +104,7 @@ public class Controller {
      * @param minimizar si se busca la distancia mínima o máxima entre puntos.
      */
     private double encontrarParejasDC(Punto[] puntos, boolean minimizar) {
+        frecuencias = new HashMap();
         Arrays.sort(puntos);
         return encontrarParejasDC(puntos, 0, puntos.length - 1, minimizar);
     }
@@ -150,7 +156,17 @@ public class Controller {
                     porcion[k++] = puntos[i];
                 }
             }
-
+            
+            
+            // Guardamos la frecuencia de aparición de cada tamaño de porción
+            if (frecuencias.containsKey(k)) {
+                int frecuenciaActual = (int)frecuencias.get(k);
+                frecuencias.put(k, frecuenciaActual + 1);
+            } else {
+                frecuencias.put(k, 1);
+            }
+            
+            
             // Ordenamos la porción por la coordenada y
             Arrays.sort(porcion, 0, k, (a, b)
                     -> Double.compare(a.getY(), b.getY()));
@@ -513,6 +529,19 @@ public class Controller {
     }
     */
     
+    private void encontrarParejasLejanas(Punto[] puntos) {
+        switch(modelo.getDistribucion()){
+            case GAUSSIAN ->
+                encontrarParejasLejanasGaussiana(puntos);
+            case CHI2 ->
+                encontrarParejasLejanasChi2v1(puntos);
+            case UNIFORME ->
+                encontrarParejasLejanasUniforme(puntos);
+            default ->
+                throw new AssertionError();
+        }
+    }
+    
     // SETTERS & GETTERS
     public Model getModelo() {
         return modelo;
@@ -528,19 +557,6 @@ public class Controller {
 
     public void setVista(View vista) {
         this.vista = vista;
-    }
-
-    private void encontrarParejasLejanas(Punto[] puntos) {
-        switch(modelo.getDistribucion()){
-            case GAUSSIAN ->
-                encontrarParejasLejanasGaussiana(puntos);
-            case CHI2 ->
-                encontrarParejasLejanasChi2v1(puntos);
-            case UNIFORME ->
-                encontrarParejasLejanasUniforme(puntos);
-            default ->
-                throw new AssertionError();
-        }
     }
 
 }
